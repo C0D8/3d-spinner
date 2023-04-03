@@ -40,8 +40,10 @@ pygame.init()
 width = 800
 height = 800
 position = [width // 2, height // 2]
-player = np.array([[0], [0], [1], [1]])
+player = np.array([[0], [0], [0], [1]])
+player_cam = np.array([[0], [0], [1], [1]])
 move_status = {"left" : False, "rigth" : False, "front" : False, "back" : False}
+move_direction = {"left" : False, "rigth" : False, "front" : False, "back" : False}
 speed = 10
 
 zoom_in = np.array([
@@ -66,10 +68,17 @@ pygame.display.set_caption('Cubo 3D')
 
 tetha = 0
 running = True
+
+
+color1 = (0, 255, 0)
+color2 = (0, 128, 0)
+
+# Defina a posição e tamanho do retângulo do gradiente
+
 while running:
 
     # Desenhe um fundo preto
-    screen.fill((0, 0, 0))
+    screen.fill((135, 206, 235))
 
     # Transforme cada vértice do cubo usando a matriz de rotação
     transformed_vertices = []
@@ -86,6 +95,20 @@ while running:
         # Adiciona o vértice transformado na lista
         transformed_vertices.append(x[:3])
         
+    
+    # Atualize a tela
+
+    rect = pygame.Rect(0, height/2, width, height/2)
+
+    # Desenhe o gradiente na tela
+    for y in range(rect.top, rect.bottom):
+        # Calcule o fator de interpolação entre as cores
+        t = (y - rect.top) / rect.height
+        # Misture as duas cores usando o fator de interpolação
+        color = tuple(int(c1 * (1-t) + c2 * t) for c1, c2 in zip(color1, color2))
+        # Desenhe a linha horizontal com a cor interpolada
+        pygame.draw.line(screen, color, (rect.left, y), (rect.right, y))
+
     # Desenhe as arestas do cubo na tela
     for edge in edges:
 
@@ -93,7 +116,8 @@ while running:
         end = transformed_vertices[edge[1]]
         pygame.draw.line(screen, (255, 255, 255), (start[0] + position[0], start[1] + position[1]), (end[0] + position[0], end[1] + position[1]), 2)
 
-    # Atualize a tela
+    
+
     pygame.display.update()
 
     # Trate eventos
@@ -109,6 +133,17 @@ while running:
                 move_status['rigth'] = True
             if event.key == pygame.K_a:
                 move_status['left'] = True
+
+            if event.key == pygame.K_UP:
+                move_direction['front'] = True
+            if event.key == pygame.K_DOWN:
+                move_direction['back'] = True
+            if event.key == pygame.K_RIGHT:
+                move_direction['rigth'] = True
+            if event.key == pygame.K_LEFT:
+                move_direction['left'] = True
+
+
         elif event.type == pygame.KEYUP:
            
             if event.key == pygame.K_w:
@@ -120,14 +155,34 @@ while running:
             if event.key == pygame.K_a:
                 move_status['left'] = False
 
+            if event.key == pygame.K_UP:
+                move_direction['front'] = False
+            if event.key == pygame.K_DOWN:
+                move_direction['back'] = False
+            if event.key == pygame.K_RIGHT:
+                move_direction['rigth'] = False
+            if event.key == pygame.K_LEFT:
+                move_direction['left'] = False
+
         if move_status.get('front'):
-            vertices = vertices @ zoom_in
+            vertices = vertices @ zoom_in 
+
         elif move_status.get('back'):
-            vertices = vertices @ zoom_out
+            vertices = vertices @ zoom_out 
         if move_status.get('left'):
-            player = move(-speed,0,0) @ player
-        elif move_status.get('rigth'):
             player = move(speed,0,0) @ player
+        elif move_status.get('rigth'):
+            player = move(-speed,0,0) @ player
+
+        if move_direction.get('front'):
+            player = move(0,-speed,0) @ player
+
+        elif move_direction.get('back'):
+            player = move(0,speed,0) @ player
+        if move_direction.get('left'):
+            player = move(speed,0,0) @ player
+        elif move_direction.get('rigth'):
+            player = move(-speed,0,0) @ player
 
 
     # Atualize a rotação do cubo

@@ -52,14 +52,7 @@ def move(x,y,z):
     ])
 
 
-def projection_perspective(fov, aspect_ratio, near, far):
-    f = 1 / np.tan(np.deg2rad(fov / 2))
-    return np.array([
-        [f/aspect_ratio, 0, 0, 0],
-        [0, f, 0, 0],
-        [0, 0, (far+near)/(near-far), (2*far*near)/(near-far)],
-        [0, 0, -1, 0]
-    ])
+
 
 
 
