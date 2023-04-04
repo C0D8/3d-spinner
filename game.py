@@ -2,9 +2,9 @@ import pygame
 import numpy as np
 from functions import * 
 
-def vertices_2d(vertices_rotacionados):
+def vertices_2d(vertices_rotacionados,d):
     vertices = []
-    matriz_projeção = np.array([[1,0,0,0],[0,1,0,0],[0,0,0,-D],[0,0,-1/D,0]])
+    matriz_projeção = np.array([[1,0,0,0],[0,1,0,0],[0,0,0,-d],[0,0,-1/d,0]])
     projetado = matriz_projeção @ vertices_rotacionados
     for ponto in projetado.T:
         vertices.append([ponto[0]/ponto[3],ponto[1]/ponto[3]])
@@ -12,7 +12,6 @@ def vertices_2d(vertices_rotacionados):
 
 
 TAMANHO_CUBO = 60
-D = 100
 THETA = 0
 
 vertices = np.array([
@@ -31,8 +30,6 @@ vertices = np.array([
 
 vertices = vertices.T
 vertices = np.vstack((vertices, np.ones((1, vertices.shape[1]))))
-
-print(vertices_2d(vertices))
 
 arestas = [
     [0, 1],
@@ -63,7 +60,7 @@ pygame.display.set_caption('Cubo 3D')
 
 running = True
 
-
+d = 100
 while running:
 
     # Desenhe um fundo preto
@@ -72,14 +69,14 @@ while running:
     matriz_rotacao_x = rotation_x(THETA)
     matriz_rotacao_y = rotation_y(THETA)
     matriz_rotacao_z = rotation_z(THETA)
-    matriz_translacao_cubo = np.array([[1,0,0,0],[0,1,0,0],[0,0,1,TAMANHO_CUBO*4],[0,0,0,1]])
+    matriz_translacao_cubo = np.array([[1,0,0,0],[0,1,0,0],[0,0,1,TAMANHO_CUBO*3],[0,0,0,1]])
     matriz_rotacao_final = matriz_rotacao_x @ matriz_rotacao_y @ matriz_rotacao_z
     
     vertices_rotacionados = matriz_rotacao_final @ vertices
     vertices_rotacionados = matriz_translacao_cubo @ vertices_rotacionados
     #vertices = vertices_rotacionados
 
-    transformed_vertices = vertices_2d(vertices_rotacionados)
+    transformed_vertices = vertices_2d(vertices_rotacionados,d)
         # Desenhe as arestas do cubo na tela
     for aresta in arestas:
         start = transformed_vertices[aresta[0]]
@@ -89,8 +86,15 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 4:  # scroll up
+                if d < 1000:
+                    d += 4
+            elif event.button == 5:  # scroll down
+                if d > 4:
+                    d -= 4
 
-    THETA += 0.03
+    THETA += 0.05
     pygame.display.update()
 
 # Encerre o Pygame
