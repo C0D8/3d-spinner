@@ -42,6 +42,7 @@ pygame.init()
 # Defina as dimensões da janela
 width = 800
 height = 800
+
 position = [width // 2, height // 2]
 
 player = np.array([[0], [0], [1], [1]])
@@ -52,20 +53,20 @@ move_status = {"left" : False, "rigth" : False, "front" : False, "back" : False}
 move_direction = {"left" : False, "rigth" : False, "front" : False, "back" : False}
 speed = 10
 
-zoom_in = np.array([
-    [1.05, 0, 0, 0],
-    [0, 1.05, 0, 0],
-    [0, 0, 1.05, 0],
-    [0, 0, 0, 1]
-])
+# zoom_in = np.array([
+#     [1.05, 0, 0, 0],
+#     [0, 1.05, 0, 0],
+#     [0, 0, 1.05, 0],
+#     [0, 0, 0, 1]
+# ])
 
 
-zoom_out = np.array([
-    [0.95, 0, 0, 0],
-    [0, 0.95, 0, 0],
-    [0, 0, 0.95, 0],
-    [0, 0, 0, 1]
-])
+# zoom_out = np.array([
+#     [0.95, 0, 0, 0],
+#     [0, 0.95, 0, 0],
+#     [0, 0, 0.95, 0],
+#     [0, 0, 0, 1]
+# ])
 
 
 # Crie uma janela
@@ -91,15 +92,14 @@ while running:
 
     for vertex in vertices:
 
-
-
         x = rotation_x(tetha) @ rotation_z(tetha) @ rotation_y(tetha) @ vertex 
         # Normaliza as coordenadas do vértice dividindo pela coordenada W
         x /= x[3]
 
-        x[:3] = np.add(x[:3], player[:3, 0])
+        # x[:3] = np.add(x[:3], player[:3, 0])
 
-        x = x * player[2]
+        # x = x * player[2]
+
         # Adiciona o vértice transformado na lista
         transformed_vertices.append(x[:3])
         
@@ -172,29 +172,41 @@ while running:
             if event.key == pygame.K_LEFT:
                 move_direction['left'] = False
 
-        if move_status.get('front'):
 
-            player[2] += 1
-            print(player[2])
+
+        if move_status.get('front'):
+            for vertex in vertices :
+                vertex = move(0,0,-speed) @ vertex
+                print(vertex)
 
         elif move_status.get('back'):
-            player[2] -= 1
+
+            for vertex in vertices :
+                vertex = move(0,0,speed) @ vertex
             
         if move_status.get('left'):
-            print(player)
-            player = move(speed,0,0) @ player
+            for vertex in vertices :
+                vertex = move(0,-speed,0) @ vertex
+
         elif move_status.get('rigth'):
-            player = move(-speed,0,0) @ player
+            for vertex in vertices :
+                vertex = move(0,speed,0) @ vertex
 
         if move_direction.get('front'):
-            player = move(0,-speed,0) @ player
+            for vertex in vertices :
+                vertex = move(0,0,speed) @ vertex
 
         elif move_direction.get('back'):
-            player = move(0,speed,0) @ player
+            for vertex in vertices :
+                vertex = move(0,0,-speed) @ vertex
+
         if move_direction.get('left'):
-            player = move(speed,0,0) @ player
+            for vertex in vertices :
+                vertex = move(0,-speed,0) @ vertex
+            
         elif move_direction.get('rigth'):
-            player = move(-speed,0,0) @ player
+            for vertex in vertices :
+                vertex = move(0,speed,0) @ vertex
 
 
     # Atualize a rotação do cubo
