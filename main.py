@@ -40,7 +40,7 @@ pygame.init()
 width = 800
 height = 800
 position = [width // 2, height // 2]
-player = np.array([[0], [0], [0], [1]])
+player = np.array([[0], [0], [1], [1]])
 player_cam = np.array([[0], [0], [1], [1]])
 move_status = {"left" : False, "rigth" : False, "front" : False, "back" : False}
 move_direction = {"left" : False, "rigth" : False, "front" : False, "back" : False}
@@ -165,11 +165,15 @@ while running:
                 move_direction['left'] = False
 
         if move_status.get('front'):
+            player = player * player[2] * 1.05
             vertices = vertices @ zoom_in 
 
         elif move_status.get('back'):
-            vertices = vertices @ zoom_out 
+            player = player * player[2] * 0.95
+            vertices = vertices @ zoom_out
+            
         if move_status.get('left'):
+            print(player)
             player = move(speed,0,0) @ player
         elif move_status.get('rigth'):
             player = move(-speed,0,0) @ player
