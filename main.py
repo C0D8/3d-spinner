@@ -96,9 +96,9 @@ while running:
         # Normaliza as coordenadas do vértice dividindo pela coordenada W
         x /= x[3]
 
-        # x[:3] = np.add(x[:3], player[:3, 0])
+        x[:3] = np.add(x[:3], player[:3, 0])
 
-        # x = x * player[2]
+        x = x * player[2]
 
         # Adiciona o vértice transformado na lista
         transformed_vertices.append(x[:3])
@@ -175,38 +175,37 @@ while running:
 
 
         if move_status.get('front'):
-            for vertex in vertices :
-                vertex = move(0,0,-speed) @ vertex
-                print(vertex)
+            
+            player = move(0,0,speed*0.005) @ player
 
         elif move_status.get('back'):
 
-            for vertex in vertices :
-                vertex = move(0,0,speed) @ vertex
+            
+            player = move(0,0,-speed*0.005) @ player
             
         if move_status.get('left'):
-            for vertex in vertices :
-                vertex = move(0,-speed,0) @ vertex
+            
+            player = move(speed,0,0) @ player
 
         elif move_status.get('rigth'):
-            for vertex in vertices :
-                vertex = move(0,speed,0) @ vertex
+            
+            player = move(-speed,0,0) @ player
 
         if move_direction.get('front'):
-            for vertex in vertices :
-                vertex = move(0,0,speed) @ vertex
+            
+            player = move(0,speed,0) @ player
 
         elif move_direction.get('back'):
-            for vertex in vertices :
-                vertex = move(0,0,-speed) @ vertex
+            
+            player = move(0,-speed,0) @ player
 
         if move_direction.get('left'):
-            for vertex in vertices :
-                vertex = move(0,-speed,0) @ vertex
+            
+            player = move(0,-speed,0) @ player
             
         elif move_direction.get('rigth'):
-            for vertex in vertices :
-                vertex = move(0,speed,0) @ vertex
+            
+            player = move(0,speed,0) @ player
 
 
     # Atualize a rotação do cubo
