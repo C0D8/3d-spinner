@@ -72,12 +72,11 @@ while running:
     matriz_rotacao_x = rotation_x(THETA)
     matriz_rotacao_y = rotation_y(THETA)
     matriz_rotacao_z = rotation_z(THETA)
-    matriz_translacao = np.array([[1,0,0,400],[0,1,0,400],[0,0,1,0],[0,0,0,1]])
+    matriz_translacao_cubo = np.array([[1,0,0,0],[0,1,0,0],[0,0,1,TAMANHO_CUBO*4],[0,0,0,1]])
     matriz_rotacao_final = matriz_rotacao_x @ matriz_rotacao_y @ matriz_rotacao_z
     
-    vertices_rotacionados = matriz_translacao @ vertices
-    vertices_rotacionados = matriz_rotacao_final @ vertices_rotacionados
-    vertices_rotacionados = np.linalg.inv(matriz_translacao) @ vertices_rotacionados
+    vertices_rotacionados = matriz_rotacao_final @ vertices
+    vertices_rotacionados = matriz_translacao_cubo @ vertices_rotacionados
     #vertices = vertices_rotacionados
 
     transformed_vertices = vertices_2d(vertices_rotacionados)
