@@ -2,6 +2,9 @@ import pygame
 import numpy as np
 from functions import * 
 
+
+TAMANHO_CUBO = 60
+
 vertices = np.array([
      [-1, -1, -1],
     [1, -1, -1],
@@ -13,7 +16,7 @@ vertices = np.array([
     [-1, 1, 1],
 ]
 
-)  * 60
+)  * TAMANHO_CUBO
 
 vertices = vertices.T
 vertices = np.vstack((vertices, np.ones((1, vertices.shape[1]))))
@@ -40,8 +43,11 @@ pygame.init()
 width = 800
 height = 800
 position = [width // 2, height // 2]
+
 player = np.array([[0], [0], [1], [1]])
+
 player_cam = np.array([[0], [0], [1], [1]])
+
 move_status = {"left" : False, "rigth" : False, "front" : False, "back" : False}
 move_direction = {"left" : False, "rigth" : False, "front" : False, "back" : False}
 speed = 10
@@ -87,11 +93,13 @@ while running:
 
 
 
-        x = rotation_x(tetha) @ rotation_z(tetha) @ rotation_x(tetha) @ vertex 
+        x = rotation_x(tetha) @ rotation_z(tetha) @ rotation_y(tetha) @ vertex 
         # Normaliza as coordenadas do vértice dividindo pela coordenada W
         x /= x[3]
 
         x[:3] = np.add(x[:3], player[:3, 0])
+
+        x = x * player[2]
         # Adiciona o vértice transformado na lista
         transformed_vertices.append(x[:3])
         
@@ -165,12 +173,12 @@ while running:
                 move_direction['left'] = False
 
         if move_status.get('front'):
-            player = player * player[2] * 1.05
-            vertices = vertices @ zoom_in 
+
+            player[2] += 1
+            print(player[2])
 
         elif move_status.get('back'):
-            player = player * player[2] * 0.95
-            vertices = vertices @ zoom_out
+            player[2] -= 1
             
         if move_status.get('left'):
             print(player)
