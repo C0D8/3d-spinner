@@ -53,22 +53,7 @@ move_status = {"left" : False, "rigth" : False, "front" : False, "back" : False}
 move_direction = {"left" : False, "rigth" : False, "front" : False, "back" : False}
 speed = 5
 
-d = 200
-
-# zoom_in = np.array([
-#     [1.05, 0, 0, 0],
-#     [0, 1.05, 0, 0],
-#     [0, 0, 1.05, 0],
-#     [0, 0, 0, 1]
-# ])
-
-
-# zoom_out = np.array([
-#     [0.95, 0, 0, 0],
-#     [0, 0.95, 0, 0],
-#     [0, 0, 0.95, 0],
-#     [0, 0, 0, 1]
-# ])
+fov = 200
 
 
 # Crie uma janela
@@ -102,7 +87,7 @@ while running:
     # x = x * player[2]
 
     # Adiciona o vértice transformado na lista
-    transformed_vertices = vertices_2d(x,d)
+    transformed_vertices = vertices_2d(x,fov)
 
 
         
@@ -178,16 +163,16 @@ while running:
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 4:  # scroll up
-                if d < 1000:
-                    d += 4
-            elif event.button == 5:  # scroll down
-                if d > 4:
-                    d -= 4
+                if fov < 1000:
+                    fov += 4
+            elif event.button == 5:  # scroll fovown
+                if fov > 4:
+                    fov -= 4
 
 
         if move_status.get('front'):
-            
-            player[0,2] -= speed
+            if  player[0,2] > 20:
+                player[0,2] -= speed
 
         elif move_status.get('back'):
 
@@ -203,9 +188,6 @@ while running:
         elif move_status.get('rigth'):
             
             player[0,0] += speed
-
-
-
 
     # Atualize a rotação do cubo
     tetha += 0.05
