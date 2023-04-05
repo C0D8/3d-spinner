@@ -142,7 +142,7 @@ X_o \\
 Z_o \\
 1 \\
 \end{bmatrix}
-\hspace{0.5in}
+\hspace{1.5in}
 \begin{bmatrix}
 Y_{pWp} \\
 Z_p \\
