@@ -44,12 +44,18 @@ height = 800
 
 position = [width // 2, height // 2]
 
+
+# Definindo a posição do player
 player = np.array([[0], [0], [1], [1]]).T
 
+#Status de movimentação para o player
 move_status = {"left" : False, "rigth" : False, "front" : False, "back" : False}
 
+
+#Velocidade do jogador
 speed = 5
 
+#Definindo fov
 fov = 300
 
 # Crie uma janela
@@ -66,8 +72,7 @@ while running:
     # Desenhe um fundo preto
     screen.fill((0, 0, 0))
 
-    # Transforme cada vértice do cubo usando a matriz de rotação
-
+    # Transforme cada vértice do cubo usando a matriz de rotação e translação 
     x = move(0+player[0,0],0+player[0,1],200+player[0,2]) @  rotation_x(tetha) @ rotation_z(tetha) @ rotation_y(tetha) @ vertices 
 
     # Adiciona o vértice transformado na lista
@@ -115,7 +120,7 @@ while running:
 
                 if fov < 1000:
                     fov += 4
-                    
+
             elif event.button == 5:  # scroll down
 
                 if fov > 4:
