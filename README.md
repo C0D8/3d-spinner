@@ -74,7 +74,6 @@ $$
 
 - Para rotacionar no eixo y :
 $$
-
 R_y = \begin{bmatrix}
 \cos(\theta) & 0 & \sin(\theta) & 0 \\
 0 & 1 & 0 & 0 \\
@@ -122,28 +121,24 @@ Como foi dito anterimente, após realizarmos todas as transformações ainda no 
 
 
 $$
-
 P = \begin{bmatrix}
 1& 0 & 0 & 0 \\
 0 & 1 & 0 & 0 \\
 0 & 0 & 1 & -d \\
 0 & 0 & -1/d & 0
 \end{bmatrix}  
-
 \begin{bmatrix}
 x_0 \\
 y_0 \\
 z_0 \\
 0
 \end{bmatrix}  =
-
 \begin{bmatrix}
 x_p w \\
 y_p w \\
 z_p w \\
 w
 \end{bmatrix} 
-
 $$
 
 
@@ -155,6 +150,7 @@ Essa matriz devolve as cordenadas x, y e z da projeção, alem de uma cordenada 
 ## Multiplicações matriciais :
 
 No código, utilizamos das matrizes de multiplicação matrical apresentadas anteriormente para fazer as operações de rotação nos eixos e também de translação através das funções a seguir :
+
 ```
 def rotation_x (tetha):
 
