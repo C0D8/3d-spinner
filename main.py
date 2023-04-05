@@ -53,6 +53,8 @@ move_status = {"left" : False, "rigth" : False, "front" : False, "back" : False}
 move_direction = {"left" : False, "rigth" : False, "front" : False, "back" : False}
 speed = 10
 
+d = 200
+
 # zoom_in = np.array([
 #     [1.05, 0, 0, 0],
 #     [0, 1.05, 0, 0],
@@ -100,7 +102,7 @@ while running:
     # x = x * player[2]
 
     # Adiciona o vértice transformado na lista
-    transformed_vertices = vertices_2d(x,100)
+    transformed_vertices = vertices_2d(x,d)
 
 
         
@@ -174,6 +176,13 @@ while running:
             if event.key == pygame.K_LEFT:
                 move_direction['left'] = False
 
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 4:  # scroll up
+                if d < 1000:
+                    d += 4
+            elif event.button == 5:  # scroll down
+                if d > 4:
+                    d -= 4
 
 
         if move_status.get('front'):
