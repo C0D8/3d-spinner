@@ -62,6 +62,7 @@ Para realizar a rotação do cubo ainda no espaço 3d utilizamos algumas matrize
 Em 3D, é possível rotacionar pontos ao redor de cada um dos eixos usando as matrizes:
 
 - Para rotacionar no eixo x :
+
 $$
 R_x = \begin{bmatrix}
 1 & 0 & 0 & 0 \\
@@ -73,6 +74,7 @@ $$
 
 
 - Para rotacionar no eixo y :
+
 $$
 R_y = \begin{bmatrix}
 \cos(\theta) & 0 & \sin(\theta) & 0 \\
@@ -83,6 +85,7 @@ R_y = \begin{bmatrix}
 $$
 
 - Para rotacionar no eixo z :
+
 $$
 R_z = \begin{bmatrix}
 \cos(\theta) & - \sin(\theta) & 0 & 0 \\
