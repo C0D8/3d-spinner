@@ -122,29 +122,67 @@ Como foi dito anterimente, após realizarmos todas as transformações ainda no 
 
 ### Matriz de projeção 
 
+#### Passo a passo:
+
+Para obter a matriz de projeção que realiza essa transformação, foi necessário realizar uma dedução similar à apresentada pelo professor na atividade de sala. No entanto, devido à natureza tridimensional da transformação, foi preciso fixar um dos eixos em cada uma das duas deduções realizadas para obter as funções correspondentes.
 
 $$
-P = \begin{bmatrix}
-1& 0 & 0 & 0 \\
+\begin{bmatrix}
+X_{pWp} \\
+Z_p \\
+W_p \\
+\end{bmatrix}= 
+\begin{bmatrix}
+1 & 0 & 0 \\
+0 & 0 & -d \\
+0 & -\frac{1}{d} & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+X_o \\
+Z_o \\
+1 \\
+\end{bmatrix}
+\begin{bmatrix}
+Y_{pWp} \\
+Z_p \\
+W_p \\
+\end{bmatrix}= 
+\begin{bmatrix}
+1 & 0 & 0 \\
+0 & 0 & -d \\
+0 & -\frac{1}{d} & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+Y_o \\
+Z_o \\
+1 \\
+\end{bmatrix}
+$$
+
+As duas equações unidas resultam na equação abaixo:
+
+#### Resultado:
+
+$$
+\begin{bmatrix}
+X_{pWp} \\
+Y_{pWp} \\
+Z_p \\
+W_p \\
+\end{bmatrix}= 
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\
 0 & 1 & 0 & 0 \\
-0 & 0 & 1 & -d \\
-0 & 0 & -1/d & 0
-\end{bmatrix}  
+0 & 0 & 0 & -d \\
+0 & 0 & -\frac{1}{d} & 0 \\
+\end{bmatrix}
 \begin{bmatrix}
-x_0 \\
-y_0 \\
-z_0 \\
-0
-\end{bmatrix}  =
-\begin{bmatrix}
-x_p w \\
-y_p w \\
-z_p w \\
-w
-\end{bmatrix} 
+X_o \\
+Y_o \\
+Z_o \\
+1 \\
+\end{bmatrix}
 $$
-
-
 
 Essa matriz devolve as cordenadas x, y e z da projeção, alem de uma cordenada auxilixar w que multiplica x e y. Por isso, há necessidade dividir os pontos x e y obtidos por esse quarto número, assim, conseguimos projetar os pontos 3D para um mundo 2D.
 
