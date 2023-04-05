@@ -51,7 +51,7 @@ player_cam = np.array([[0], [0], [1], [1]])
 
 move_status = {"left" : False, "rigth" : False, "front" : False, "back" : False}
 move_direction = {"left" : False, "rigth" : False, "front" : False, "back" : False}
-speed = 10
+speed = 5
 
 d = 200
 
