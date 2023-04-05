@@ -1,5 +1,16 @@
 import numpy as np 
 
+
+
+def vertices_2d(vertices_rotacionados,d):
+    vertices = []
+    matriz_projeção = np.array([[1,0,0,0],[0,1,0,0],[0,0,0,(-d)],[0,0,(-1/d),0]])
+    projetado = matriz_projeção @ vertices_rotacionados
+    for ponto in projetado.T:
+        vertices.append([ponto[0]/ponto[3],ponto[1]/ponto[3]])
+    return vertices
+
+
 def rotation_x (tetha):
 
     tetha = np.radians(tetha)

@@ -18,9 +18,9 @@ vertices = np.array([
 
 )  * TAMANHO_CUBO
 
+
 vertices = vertices.T
 vertices = np.vstack((vertices, np.ones((1, vertices.shape[1]))))
-vertices = vertices.T
 
 edges = [
     [0, 1],
@@ -45,7 +45,7 @@ height = 800
 
 position = [width // 2, height // 2]
 
-player = np.array([[0], [0], [1], [1]])
+player = np.array([[0], [0], [1], [1]]).T
 
 player_cam = np.array([[0], [0], [1], [1]])
 
@@ -88,21 +88,23 @@ while running:
     screen.fill((135, 206, 235))
 
     # Transforme cada vértice do cubo usando a matriz de rotação
-    transformed_vertices = []
 
-    for vertex in vertices:
 
-        x = rotation_x(tetha) @ rotation_z(tetha) @ rotation_y(tetha) @ vertex 
-        # Normaliza as coordenadas do vértice dividindo pela coordenada W
-        x /= x[3]
 
-        x[:3] = np.add(x[:3], player[:3, 0])
 
-        x = x * player[2]
+    x = move(0+player[0,0],0+player[0,1],200+player[0,2]) @  rotation_x(tetha) @ rotation_z(tetha) @ rotation_y(tetha) @ vertices 
+    # Normaliza as coordenadas do vértice dividindo pela coordenada W
+    # x /= x[3]
 
-        # Adiciona o vértice transformado na lista
-        transformed_vertices.append(x[:3])
+
+    # x = x * player[2]
+
+    # Adiciona o vértice transformado na lista
+    transformed_vertices = vertices_2d(x,100)
+
+
         
+    
     
     # Atualize a tela
 
@@ -176,36 +178,24 @@ while running:
 
         if move_status.get('front'):
             
-            player = move(0,0,speed*0.005) @ player
+            player[0,2] -= speed
 
         elif move_status.get('back'):
 
             
-            player = move(0,0,-speed*0.005) @ player
+            player[0,2] += speed
+    
             
         if move_status.get('left'):
             
-            player = move(speed,0,0) @ player
+            player[0,0] -= speed
+
 
         elif move_status.get('rigth'):
             
-            player = move(-speed,0,0) @ player
+            player[0,0] += speed
 
-        if move_direction.get('front'):
-            
-            player = move(0,speed,0) @ player
 
-        elif move_direction.get('back'):
-            
-            player = move(0,-speed,0) @ player
-
-        if move_direction.get('left'):
-            
-            player = move(0,-speed,0) @ player
-            
-        elif move_direction.get('rigth'):
-            
-            player = move(0,speed,0) @ player
 
 
     # Atualize a rotação do cubo
